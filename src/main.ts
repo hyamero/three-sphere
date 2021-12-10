@@ -9,13 +9,13 @@ import { GUI } from 'dat.gui'
 
 // Debug
 const gui = new GUI()
+gui.destroy()
 
 // Canvas
 const canvas: any = document.querySelector('canvas.webgl')
 
 // Scene
 const scene = new THREE.Scene
-scene.background = new THREE.Color( 0x181818 )
 
 /**
  * Loaders
@@ -81,8 +81,8 @@ light1.add(pointLight2.position, 'y').min(-3).max(3).step(0.01)
 light1.add(pointLight2.position, 'z').min(-3).max(3).step(0.01)
 light1.add(pointLight2, 'intensity').min(0).max(10).step(0.5)
 
-const pointLightHelper2 = new THREE.PointLightHelper(pointLight2)
-scene.add(pointLightHelper2)
+// const pointLightHelper2 = new THREE.PointLightHelper(pointLight2)
+// scene.add(pointLightHelper2)
 
 // third light
 const pointLight3 = new THREE.PointLight(0x00ffff, 4)
@@ -97,8 +97,8 @@ light2.add(pointLight3.position, 'y').min(-3).max(3).step(0.01)
 light2.add(pointLight3.position, 'z').min(-3).max(3).step(0.01)
 light2.add(pointLight3, 'intensity').min(0).max(10).step(0.5)
 
-const pointLightHelper3 = new THREE.PointLightHelper(pointLight3)
-scene.add(pointLightHelper3)
+// const pointLightHelper3 = new THREE.PointLightHelper(pointLight3)
+// scene.add(pointLightHelper3)
 
 
 /**
@@ -132,12 +132,13 @@ camera.position.set(0, 0, 2)
 scene.add(camera)
 
 // Controls
-const controls = new OrbitControls(camera, canvas)
-controls.enableDamping = true
+// const controls = new OrbitControls(camera, canvas)
+// controls.enableDamping = true
 
 // Renderer
 const renderer = new THREE.WebGLRenderer({
   canvas: canvas,
+  alpha: true
 })
 renderer.setSize(sizes.width, sizes.height)
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
@@ -155,6 +156,10 @@ document.addEventListener('mousemove', (e) => {
   cursor.y = (e.clientY / window.innerHeight) - 0.5
 })
 
+window.addEventListener('scroll', (e) => {
+  sphere.position.y = window.scrollY * 0.001
+})
+
 const clock = new THREE.Clock()
 
 const tick = () => {
@@ -165,10 +170,10 @@ const tick = () => {
 
   sphere.rotation.y += ( cursor.x - sphere.rotation.y) * 0.5
   sphere.rotation.x += ( cursor.y - sphere.rotation.x) * 0.05
-  sphere.rotation.z += -( cursor.y - sphere.rotation.x) * 0.05
+  sphere.position.z += -( cursor.y - sphere.rotation.x) * 0.05
 
   // Update controls
-  controls.update()
+  // controls.update()
 
   // Render
   renderer.render(scene, camera)

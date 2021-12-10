@@ -54,21 +54,52 @@ scene.add(sphere)
 /**
  * Lights
  */
+// first light
+const pointLight = new THREE.PointLight(0xffffff, 1)
+pointLight.position.set(-1.86, 1, -1.65)
 
-const pointLight = new THREE.PointLight(0x0000ff, 1)
-pointLight.position.set(6, -3, -3)
-scene.add(pointLight)
-gui.add(pointLight.position, 'x').min(-3).max(6).step(0.01)
-gui.add(pointLight.position, 'y').min(-3).max(3).step(0.01)
-gui.add(pointLight.position, 'z').min(-3).max(3).step(0.01)
+// scene.add(pointLight)
 
+// gui.add(pointLight.position, 'x').min(-3).max(6).step(0.01)
+// gui.add(pointLight.position, 'y').min(-3).max(3).step(0.01)
+// gui.add(pointLight.position, 'z').min(-3).max(3).step(0.01)
+// gui.add(pointLight, 'intensity').min(0).max(10).step(0.5)
 
+// const pointLightHelper = new THREE.PointLightHelper(pointLight)
+// scene.add(pointLightHelper)
+
+// second light
 const pointLight2 = new THREE.PointLight(0xff0000, 1)
 pointLight2.position.set(-3, 3, -3)
+
 scene.add(pointLight2)
-// gui.add(pointLight2.position, 'x').min(-3).max(6).step(0.01)
-// gui.add(pointLight2.position, 'y').min(-3).max(3).step(0.01)
-// gui.add(pointLight2.position, 'z').min(-3).max(3).step(0.01)
+
+const light1 = gui.addFolder('Light 1')
+
+light1.add(pointLight2.position, 'x').min(-3).max(6).step(0.01)
+light1.add(pointLight2.position, 'y').min(-3).max(3).step(0.01)
+light1.add(pointLight2.position, 'z').min(-3).max(3).step(0.01)
+light1.add(pointLight2, 'intensity').min(0).max(10).step(0.5)
+
+const pointLightHelper2 = new THREE.PointLightHelper(pointLight2)
+scene.add(pointLightHelper2)
+
+// third light
+const pointLight3 = new THREE.PointLight(0x00ffff, 1)
+pointLight3.position.set(6, -3, -3)
+
+scene.add(pointLight3)
+
+const light2 = gui.addFolder('Light 2')
+
+light2.add(pointLight3.position, 'x').min(-3).max(6).step(0.01)
+light2.add(pointLight3.position, 'y').min(-3).max(3).step(0.01)
+light2.add(pointLight3.position, 'z').min(-3).max(3).step(0.01)
+light2.add(pointLight3, 'intensity').min(0).max(10).step(0.5)
+
+const pointLightHelper3 = new THREE.PointLightHelper(pointLight3)
+scene.add(pointLightHelper3)
+
 
 /**
  * Sizes
@@ -115,6 +146,7 @@ renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
  * Animate
  */
 
+
 const clock = new THREE.Clock()
 
 const tick = () => {
@@ -122,6 +154,8 @@ const tick = () => {
 
   // Animate sphere
   sphere.rotation.y = elapsedTime * 0.5
+
+
 
   // Update controls
   controls.update()

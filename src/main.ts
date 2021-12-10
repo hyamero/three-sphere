@@ -27,8 +27,14 @@ const faceNormal = textureLoader.load('../static/textures/FaceNormalMap.jpg')
 const metalNormal = textureLoader.load('../static/textures/metalNormal.jpg')
 const patternNormal = textureLoader.load('../static/textures/PatternNormal.jpg')
 const circlePatNormal = textureLoader.load('../static/textures/circlePatNormal.png')
+const rockNormalMap = textureLoader.load('../static/textures/rockNormalMap.jpg')
+const golfballNormalMap = textureLoader.load('../static/textures/golfballNormalMap.jpg')
+const rockyNormalMap = textureLoader.load('../static/textures/rockyNormalMap.jpg')
 
-const normalMap = [organicNormal, splashNormal, faceNormal, metalNormal, patternNormal, circlePatNormal]
+golfballNormalMap.wrapS = THREE.RepeatWrapping;
+golfballNormalMap.wrapT = THREE.RepeatWrapping;
+
+const normalMap = [rockyNormalMap, golfballNormalMap, rockNormalMap, organicNormal, splashNormal, faceNormal, metalNormal, patternNormal, circlePatNormal]
 
 // Objects
 const sphereGeometry = new THREE.SphereBufferGeometry(0.5, 64, 64)
@@ -38,7 +44,7 @@ const sphereMaterial = new THREE.MeshStandardMaterial({
   color: 0x292929,
   metalness: 0.7,
   roughness: 0.2,
-  normalMap: normalMap[1]
+  normalMap: normalMap[0],
  })
 
 // Mesh
@@ -49,10 +55,20 @@ scene.add(sphere)
  * Lights
  */
 
-const redLight = new THREE.PointLight(0xff0000, 1, 5)
-redLight.position.set(1, 0, 1)
-scene.add(redLight)
-gui.add(redLight.position, 'x').min(-3).max(3).step(0.01)
+const pointLight = new THREE.PointLight(0x0000ff, 1)
+pointLight.position.set(6, -3, -3)
+scene.add(pointLight)
+gui.add(pointLight.position, 'x').min(-3).max(6).step(0.01)
+gui.add(pointLight.position, 'y').min(-3).max(3).step(0.01)
+gui.add(pointLight.position, 'z').min(-3).max(3).step(0.01)
+
+
+const pointLight2 = new THREE.PointLight(0xff0000, 1)
+pointLight2.position.set(-3, 3, -3)
+scene.add(pointLight2)
+// gui.add(pointLight2.position, 'x').min(-3).max(6).step(0.01)
+// gui.add(pointLight2.position, 'y').min(-3).max(3).step(0.01)
+// gui.add(pointLight2.position, 'z').min(-3).max(3).step(0.01)
 
 /**
  * Sizes
@@ -103,6 +119,9 @@ const clock = new THREE.Clock()
 
 const tick = () => {
   const elapsedTime = clock.getElapsedTime()
+
+  // Animate sphere
+  sphere.rotation.y = elapsedTime * 0.5
 
   // Update controls
   controls.update()

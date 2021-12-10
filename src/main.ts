@@ -16,11 +16,29 @@ const canvas: any = document.querySelector('canvas.webgl')
 // Scene
 const scene = new THREE.Scene
 
+/**
+ * Loaders
+ */
+const textureLoader = new THREE.TextureLoader()
+const organicNormal = textureLoader.load('../static/textures/SurfaceAppearance-NormalMap.jpg')
+const splashNormal = textureLoader.load('../static/textures/TearSplashNormalMap.jpg')
+const faceNormal = textureLoader.load('../static/textures/FaceNormalMap.jpg')
+const metalNormal = textureLoader.load('../static/textures/metalNormal.jpg')
+const patternNormal = textureLoader.load('../static/textures/PatternNormal.jpg')
+const circlePatNormal = textureLoader.load('../static/textures/circlePatNormal.png')
+
+const normalMap = [organicNormal, splashNormal, faceNormal, metalNormal, patternNormal, circlePatNormal]
+
 // Objects
-const sphereGeometry = new THREE.BoxBufferGeometry(1, 1, 1)
+const sphereGeometry = new THREE.SphereBufferGeometry(0.5, 64, 64)
 
 // Material
-const sphereMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000 })
+const sphereMaterial = new THREE.MeshStandardMaterial({
+  color: 0x292929,
+  metalness: 0.7,
+  roughness: 0.2,
+  normalMap: normalMap[1]
+ })
 
 // Mesh
 const sphere = new THREE.Mesh(sphereGeometry, sphereMaterial) 
@@ -29,8 +47,11 @@ scene.add(sphere)
 /**
  * Lights
  */
-// const ambientLight = new THREE.AmbientLight(0xffffff, 0.5)
-// scene.add(ambientLight)
+
+const redLight = new THREE.PointLight(0xff0000, 1, 5)
+redLight.position.set(1, 0, 1)
+scene.add(redLight)
+gui.add(redLight.position, 'x').min(-3).max(3).step(0.01)
 
 /**
  * Sizes

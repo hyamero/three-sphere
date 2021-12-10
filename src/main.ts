@@ -70,7 +70,7 @@ pointLight.position.set(-1.86, 1, -1.65)
 
 // second light
 const pointLight2 = new THREE.PointLight(0xff0000, 1)
-pointLight2.position.set(-3, 3, -3)
+pointLight2.position.set(-3, 2.5, -3)
 
 scene.add(pointLight2)
 
@@ -85,8 +85,8 @@ const pointLightHelper2 = new THREE.PointLightHelper(pointLight2)
 scene.add(pointLightHelper2)
 
 // third light
-const pointLight3 = new THREE.PointLight(0x00ffff, 1)
-pointLight3.position.set(6, -3, -3)
+const pointLight3 = new THREE.PointLight(0x00ffff, 4)
+pointLight3.position.set(4, -2.5, -3)
 
 scene.add(pointLight3)
 
@@ -145,7 +145,15 @@ renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 /**
  * Animate
  */
+const cursor = {
+  x: 0,
+  y: 0
+}
 
+document.addEventListener('mousemove', (e) => {
+  cursor.x = e.clientX / window.innerWidth - 0.5
+  cursor.y = (e.clientY / window.innerHeight) - 0.5
+})
 
 const clock = new THREE.Clock()
 
@@ -155,7 +163,9 @@ const tick = () => {
   // Animate sphere
   sphere.rotation.y = elapsedTime * 0.5
 
-
+  sphere.rotation.y += ( cursor.x - sphere.rotation.y) * 0.5
+  sphere.rotation.x += ( cursor.y - sphere.rotation.x) * 0.05
+  sphere.rotation.z += -( cursor.y - sphere.rotation.x) * 0.05
 
   // Update controls
   controls.update()

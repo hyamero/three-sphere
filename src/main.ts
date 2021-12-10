@@ -15,6 +15,7 @@ const canvas: any = document.querySelector('canvas.webgl')
 
 // Scene
 const scene = new THREE.Scene
+scene.background = new THREE.Color( 0x181818 )
 
 /**
  * Loaders
@@ -61,6 +62,21 @@ const sizes = {
   height: window.innerHeight
 }
 
+window.addEventListener('resize', () => {
+
+  // Update Sizes
+  sizes.width = window.innerWidth
+  sizes.height = window.innerHeight
+
+  // Update Camera
+  camera.aspect = sizes.width / sizes.height
+  camera.updateProjectionMatrix()
+
+  // Update renderer
+  renderer.setSize(sizes.width, sizes.height)
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+})
+
 /**
  * Camera
  */
@@ -74,9 +90,10 @@ controls.enableDamping = true
 
 // Renderer
 const renderer = new THREE.WebGLRenderer({
-  canvas: canvas
+  canvas: canvas,
 })
 renderer.setSize(sizes.width, sizes.height)
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 
 /**
  * Animate
